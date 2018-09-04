@@ -1,7 +1,10 @@
+import java.lang.reflect.Array;
+import java.lang.reflect.Member;
+import java.util.Arrays;
+
 public class Principal {
 
     public static void main(String[] args) {
-
         Vetor vetor = new Vetor(10);
         vetor.povoarVetor();
 
@@ -9,8 +12,11 @@ public class Principal {
 
         Ordenacao ordenar = new Ordenacao(vetor);
 
-        ordenar.SelectionSort();
+        ordenar.MergeSort();
 
         ordenar.imprimir();
     }
 }
+
+
+

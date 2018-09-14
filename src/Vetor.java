@@ -14,9 +14,10 @@ public class Vetor {
         Random gerador = new Random();
 
         for(int i = 0; i < vetor.length; i++) {
-            vetor[i] = gerador.nextInt(1000);
+            vetor[i] = gerador.nextInt(20);
         }
 
+        //vetor = new int[] {8,4,3,5,2,7};
         //vetor = new int[] {10,3,5,1,2,8,9,7,4,6};
     }
     //Fim------------------------------------------------------------------------
@@ -69,10 +70,10 @@ public class Vetor {
 
     public void imprimir() {
 
+        System.out.print("Aleatório: ");
         for(int i = 0; i < vetor.length; i++) {
             System.out.print(vetor[i] + " ");
         }
-
-        System.out.println("");
+        System.out.println(" ");
     }
 }

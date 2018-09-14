@@ -76,80 +76,51 @@ public class Ordenacao {
 
     //Inicio de MergeSort------------------------------------------------------------------------
     public void MergeSort() {
-        sort(vetor.getVetor(), 0, vetor.getVetor().length - 1);
+        MergeSort(vetor.getVetor(), 0, vetor.getVetor().length - 1);
     }
 
-    private void merge(int arr[], int l, int m, int r)
-    {
-        // Find sizes of two subarrays to be merged
-        int n1 = m - l + 1;
-        int n2 = r - m;
-
-        /* Create temp arrays */
-        int L[] = new int [n1];
-        int R[] = new int [n2];
-
-        /*Copy data to temp arrays*/
-        for (int i=0; i<n1; ++i)
-            L[i] = arr[l + i];
-        for (int j=0; j<n2; ++j)
-            R[j] = arr[m + 1+ j];
-
-
-        /* Merge the temp arrays */
-
-        // Initial indexes of first and second subarrays
-        int i = 0, j = 0;
-
-        // Initial index of merged subarry array
-        int k = l;
-        while (i < n1 && j < n2)
-        {
-            if (L[i] <= R[j])
-            {
-                arr[k] = L[i];
-                i++;
-            }
-            else
-            {
-                arr[k] = R[j];
-                j++;
-            }
-            k++;
-        }
-
-        /* Copy remaining elements of L[] if any */
-        while (i < n1)
-        {
-            arr[k] = L[i];
-            i++;
-            k++;
-        }
-
-        /* Copy remaining elements of R[] if any */
-        while (j < n2)
-        {
-            arr[k] = R[j];
-            j++;
-            k++;
+    private void MergeSort(int[] vetor, int inicio, int fim){
+        if (inicio < fim) {
+            int meio = (inicio + fim) / 2;
+            MergeSort(vetor, inicio, meio);
+            MergeSort(vetor, meio + 1, fim);
+            Intercalar(vetor, inicio, meio, fim);
         }
     }
 
-    // Main function that sorts arr[l..r] using
-    // merge()
-    private void sort(int arr[], int l, int r)
-    {
-        if (l < r)
-        {
-            // Find the middle point
-            int m = (l+r)/2;
+    private void Intercalar(int[] vetor, int inicio, int meio, int fim) {
 
-            // Sort first and second halves
-            sort(arr, l, m);
-            sort(arr , m+1, r);
+        int posLivre, Vet1, Vet2;
+        int[] aux = new int[vetor.length];
+        Vet1 = inicio;
+        Vet2 = meio + 1;
+        posLivre = inicio;
 
-            // Merge the sorted halves
-            merge(arr, l, m, r);
+        while(Vet1 <= meio && Vet2 <= fim){
+
+            if (vetor[Vet1] >= vetor[Vet2]) {
+                aux[posLivre] = vetor[Vet2];
+                Vet2++;
+            } else {
+                aux[posLivre] = vetor[Vet1];
+                Vet1++;
+            }
+
+            posLivre++;
+        }
+
+        for (int i = Vet1; i <= meio; i++) {
+            aux[posLivre] = vetor[i];
+            posLivre++;
+        }
+
+        for (int i = Vet2; i <= fim; i++) {
+            aux[posLivre] = vetor[i];
+            posLivre++;
+        }
+
+        for (int i = inicio; i <= fim; i++) {
+            vetor[i] = aux[i];
         }
     }
     //Fim de MergeSort------------------------------------------------------------------------
@@ -200,58 +171,64 @@ public class Ordenacao {
     //Fim de QuickSort------------------------------------------------------------------------
 
     //Inicio de HeapSort------------------------------------------------------------------------
+//
     public void HeapSort() {
-        HeapSort(vetor.getVetor());
+
+        TransformaHeap(vetor.getVetor().length - 1);
+
+        Ordena(vetor.getVetor().length - 1);
     }
 
-    private void buildheap(int []arr) {
-
-        /*
-         * As last non leaf node will be at (arr.length-1)/2
-         * so we will start from this location for heapifying the elements
-         * */
-        for(int i=(arr.length-1)/2; i>=0; i--){
-            heapify(arr,i,arr.length-1);
+    private void TransformaHeap(int qtd) {
+        int pai, aux;
+        for (int i=qtd/2; i >= 0; i--) {
+            HeapFica(i, qtd);
         }
     }
 
-    private void heapify(int[] arr, int i,int size) {
-        int left = 2*i+1;
-        int right = 2*i+2;
-        int max;
-        if(left <= size && arr[left] > arr[i]){
-            max=left;
-        } else {
-            max=i;
+    private void HeapFica(int i, int qtd) {
+        int Fdir, Fesq, maior, aux;
+        maior = i;
+
+        if (2*i+1 <= qtd) {
+
+            Fdir = 2*i;
+            Fesq = 2*i + 1;
+
+            if(vetor.getVetor()[Fesq] >= vetor.getVetor()[Fdir] && vetor.getVetor()[Fesq] > vetor.getVetor()[i]) {
+                maior = 2*i + 1;
+            } else if(vetor.getVetor()[Fdir] > vetor.getVetor()[Fesq] && vetor.getVetor()[Fdir] > vetor.getVetor()[i]) {
+                maior = 2*i;
+            }
+        } else if (2*i <= qtd) {
+            Fdir = 2*i;
+
+            if (vetor.getVetor()[Fdir] > vetor.getVetor()[i]) {
+                maior = 2*i;
+            }
         }
 
-        if(right <= size && arr[right] > arr[max]) {
-            max=right;
-        }
-        // If max is not current node, exchange it with max of left and right child
-        if(max!=i) {
-            exchange(arr,i, max);
-            heapify(arr, max,size);
+        if (maior != i) {
+            aux = vetor.getVetor()[i];
+            vetor.getVetor()[i] = vetor.getVetor()[maior];
+            vetor.getVetor()[maior] = aux;
+            HeapFica(maior, qtd);
         }
     }
 
-    private void exchange(int[] arr,int i, int j) {
-        int t = arr[i];
-        arr[i] = arr[j];
-        arr[j] = t;
-    }
+    private void Ordena(int qtd){
+        int aux, ultPos;
 
-    private int[] HeapSort(int[] arr) {
-
-        buildheap(arr);
-        int sizeOfHeap=arr.length-1;
-        for(int i=sizeOfHeap; i>0; i--) {
-            exchange(arr,0, i);
-            sizeOfHeap=sizeOfHeap-1;
-            heapify(arr, 0,sizeOfHeap);
+        for (int i = qtd; i >= 0; i--){
+            aux = vetor.getVetor()[0];
+            vetor.getVetor()[0] = vetor.getVetor()[i];
+            vetor.getVetor()[i] = aux;
+            ultPos = i-1;
+            HeapFica(0, ultPos);
         }
-        return arr;
     }
+
+
     //Fim de HeapSort------------------------------------------------------------------------
 
     //Inicio Busca Sequencial------------------------------------------------------------------------
@@ -267,7 +244,7 @@ public class Ordenacao {
     }
     //Fim------------------------------------------------------------------------
 
-    //Inicio Ordenacao Binária------------------------------------------------------------------------
+    //Inicio Busca Binária------------------------------------------------------------------------
     public int BuscaBinaria(int valor) {
         return busca(vetor.getVetor(), valor);
     }
@@ -296,6 +273,7 @@ public class Ordenacao {
     //Método para imprimir vetor------------------------------------------------------------------------
     public void imprimir() {
 
+        System.out.print("Ordenado: ");
         for (int i = 0; i < vetor.getVetor().length; i++) {
             System.out.print(vetor.getVetor()[i] + " ");
         }

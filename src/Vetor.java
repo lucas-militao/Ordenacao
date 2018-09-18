@@ -14,8 +14,10 @@ public class Vetor {
         Random gerador = new Random();
 
         for(int i = 0; i < vetor.length; i++) {
-            vetor[i] = gerador.nextInt(20);
+            vetor[i] = gerador.nextInt(500);
         }
+
+        vetor[vetor.length - 1] = 600;
 
         //vetor = new int[] {8,4,3,5,2,7};
         //vetor = new int[] {10,3,5,1,2,8,9,7,4,6};

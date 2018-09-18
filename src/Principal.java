@@ -6,7 +6,7 @@ public class Principal {
 
     public static void main(String[] args) {
 
-        Vetor vetor = new Vetor(20);
+        Vetor vetor = new Vetor(5);
         vetor.povoarVetorAleatorio();
 
         vetor.imprimir();
@@ -15,7 +15,7 @@ public class Principal {
 
         long tempoInicial = System.currentTimeMillis();
 
-        ordenar.HeapSort();
+        ordenar.ShellSort();
 
         long tempoFinal = System.currentTimeMillis();
 

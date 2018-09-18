@@ -246,14 +246,14 @@ public class Ordenacao {
 
     //Inicio Busca Binária------------------------------------------------------------------------
     public int BuscaBinaria(int valor) {
-        return busca(vetor.getVetor(), valor);
+        return buscaBinaria(vetor.getVetor(), valor);
     }
 
-    private int busca(int[] array, int chave) {
-        return buscaBinariaRecursiva(array, 0, array.length - 1, chave);
+    private int buscaBinaria(int[] array, int chave) {
+        return buscaBinaria(array, 0, array.length - 1, chave);
     }
 
-    private int buscaBinariaRecursiva(int[] array, int menor, int maior,
+    private int buscaBinaria(int[] array, int menor, int maior,
                                              int chave) {
         int media = (maior + menor) / 2;
         int valorMeio = array[media];
@@ -263,9 +263,38 @@ public class Ordenacao {
         else if(valorMeio == chave)
             return media;
         else if (valorMeio < chave)
-            return buscaBinariaRecursiva(array, media+1, maior, chave);
+            return buscaBinaria(array, media+1, maior, chave);
         else
-            return buscaBinariaRecursiva(array, menor, media-1, chave);
+            return buscaBinaria(array, menor, media-1, chave);
+    }
+    //Fim------------------------------------------------------------------------
+
+    //ShellSort------------------------------------------------------------------------
+    public void ShellSort() {
+        ShellSort(vetor.getVetor());
+    }
+
+    private void ShellSort(int[] vet){
+        int i , j , temp, size = vet.length;
+
+        int incremento = 1;
+        while(incremento < size) {
+            incremento = 3 * incremento + 1;
+        }
+
+        while (incremento > 1) {
+            incremento /= 3;
+
+            for(i = incremento; i < size; i++) {
+                temp = vet[i];
+                j = i - incremento;
+                while (j >= 0 && temp < vet[j]) {
+                    vet[j + incremento] = vet[j];
+                    j -= incremento;
+                }
+                vet [j + incremento] = temp;
+            }
+        }
     }
     //Fim------------------------------------------------------------------------
 
